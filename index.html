@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gradient Descent Visualization for f(x) = x⁴ - 4x² + 5</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- MathJax for LaTeX rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <div class="container">
@@ -44,28 +47,149 @@
         </div>
         
         <div class="explanation">
-            <h2>How Gradient Descent Works for f(x) = x⁴ - 4x² + 5</h2>
-            <p>Gradient descent is an optimization algorithm used to minimize a function by iteratively moving in the direction of steepest descent as defined by the negative of the gradient (derivative).</p>
-            <p>In this visualization:</p>
-            <ul>
-                <li><strong>The Blue Curve:</strong> Represents our cost function f(x) = x⁴ - 4x² + 5</li>
-                <li><strong>The Red Dot:</strong> Represents our current position on the curve</li>
-                <li><strong>The Green Path:</strong> Shows how gradient descent moves toward the minimum</li>
-                <li><strong>The Purple Lines:</strong> Show the tangent lines at each point</li>
-                <li><strong>The Red Arrows:</strong> Show the negative tangent direction (downhill direction)</li>
-            </ul>
-            <p><strong>For the function f(x) = x⁴ - 4x² + 5:</strong></p>
-            <ul>
-                <li>The derivative (gradient) is f'(x) = 4x³ - 8x</li>
-                <li>This function has two local minima at x = -√2 and x = √2</li>
-                <li>There is a local maximum at x = 0</li>
-                <li>The gradient is zero at x = 0, x = -√2, and x = √2</li>
-                <li>Which minimum the algorithm finds depends on the starting position</li>
-                <li>In this visualization, we follow the negative tangent direction (downhill) rather than the perpendicular gradient direction</li>
-            </ul>
-            <p><strong>Learning Rate:</strong> Controls how big of a step we take in the direction of the negative gradient. A higher learning rate means bigger steps.</p>
-            <p><strong>Iterations:</strong> The maximum number of steps the algorithm will take.</p>
+            <h2 class="math-title">How Gradient Descent Works for \(f(x) = x^4 - 4x^2 + 5\)</h2>
+            
+            <div class="math-block">
+                <p>Gradient descent is an optimization algorithm used to minimize a function by iteratively moving in the direction of steepest descent as defined by the negative of the gradient (derivative).</p>
+            </div>
+            
+            <div class="visualization-legend">
+                <h3>In this visualization:</h3>
+                <ul>
+                    <li><span class="legend-item blue">The Blue Curve:</span> Represents our cost function \(f(x) = x^4 - 4x^2 + 5\)</li>
+                    <li><span class="legend-item red">The Red Dot:</span> Represents our current position on the curve</li>
+                    <li><span class="legend-item green">The Green Path:</span> Shows how gradient descent moves toward the minimum</li>
+                    <li><span class="legend-item purple">The Purple Lines:</span> Show the tangent lines at each point</li>
+                    <li><span class="legend-item red-arrow">The Red Arrows:</span> Show the negative tangent direction (downhill direction)</li>
+                </ul>
+            </div>
+            
+            <div class="math-properties">
+                <h3>Mathematical Properties:</h3>
+                <div class="property">
+                    <p>Function: \[ f(x) = x^4 - 4x^2 + 5 \]</p>
+                </div>
+                
+                <div class="property">
+                    <p>Derivative: \[ f'(x) = 4x^3 - 8x \]</p>
+                </div>
+                
+                <div class="property">
+                    <p>Critical Points (where \(f'(x) = 0\)):</p>
+                    <ul>
+                        <li>\(x = 0\) (local maximum)</li>
+                        <li>\(x = -\sqrt{2}\) (local minimum)</li>
+                        <li>\(x = \sqrt{2}\) (local minimum)</li>
+                    </ul>
+                </div>
+                
+                <div class="property">
+                    <p>Convergence: Which minimum the algorithm finds depends on the starting position</p>
+                </div>
+                
+                <div class="property">
+                    <p>Direction: In this visualization, we follow the negative tangent direction (downhill) rather than the perpendicular gradient direction</p>
+                </div>
+            </div>
+            
+            <div class="parameters">
+                <div class="parameter">
+                    <h4>Learning Rate (\(\alpha\)):</h4>
+                    <p>Controls how big of a step we take in the direction of the negative gradient. A higher learning rate means bigger steps.</p>
+                    <p class="formula">\[ x_{t+1} = x_t - \alpha \cdot f'(x_t) \]</p>
+                </div>
+                
+                <div class="parameter">
+                    <h4>Iterations:</h4>
+                    <p>The maximum number of steps the algorithm will take.</p>
+                </div>
+            </div>
         </div>
+        
+        <style>
+        .math-title {
+            text-align: center;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        .math-block {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            margin-bottom: 20px;
+        }
+        
+        .visualization-legend {
+            background-color: #f0f7ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .visualization-legend h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        
+        .legend-item {
+            font-weight: bold;
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-right: 5px;
+        }
+        
+        .blue { color: #0066cc; }
+        .red { color: #e74c3c; }
+        .green { color: #27ae60; }
+        .purple { color: #9b59b6; }
+        .red-arrow { color: #e74c3c; }
+        
+        .math-properties {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .math-properties h3 {
+            margin-top: 0;
+            color: #2c3e50;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        
+        .property {
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 3px solid #3498db;
+        }
+        
+        .parameters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .parameter {
+            flex: 1;
+            min-width: 300px;
+            background-color: #e8f4f8;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .parameter h4 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        
+        .formula {
+            text-align: center;
+            margin-top: 10px;
+        }
+        </style>
     </div>
     
     <script src="script.js"></script>
