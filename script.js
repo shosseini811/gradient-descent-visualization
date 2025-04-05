@@ -90,13 +90,21 @@ document.addEventListener('DOMContentLoaded', function() {
         // Store the current position in our path
         path.push({...currentPosition, gradient: grad});
         
-        // In gradient descent, we move in the negative gradient direction
-        // For f(x) = x², the gradient is 2x
-        // So we move in the direction opposite to the gradient
+        // Calculate the derivative (slope of the tangent) at the current point
+        const derivative = 4 * Math.pow(currentPosition.x, 3) - 8 * currentPosition.x;
         
-        // Update the position by moving in the opposite direction of the gradient
-        // (multiplied by the learning rate to control step size)
-        currentPosition.x -= learningRate * grad;
+        // In this modified approach, we move in the negative tangent direction
+        // If the tangent slope is positive (going uphill), we move in the opposite direction
+        // If the tangent slope is negative (going downhill), we move in that direction
+        
+        // Determine the direction (we want to go downhill)
+        const directionMultiplier = (derivative > 0) ? -1 : 1;
+        
+        // Calculate the step size
+        const stepSize = learningRate * Math.abs(grad);
+        
+        // Update the position by moving in the negative tangent direction
+        currentPosition.x += directionMultiplier * stepSize;
         
         // Calculate the y-value (cost) for the new x position
         currentPosition.y = costFunction(currentPosition.x);
@@ -175,10 +183,10 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.fill();
     }
     
-    // Draw a tangent line and gradient direction at a point on the curve
+    // Draw a tangent line and negative tangent direction at a point on the curve
     function drawTangent(x, y, derivative, color) {
         // The derivative gives us the slope of the tangent line
-        // For f(x) = x², the derivative is 2x
+        // For our complex function, the derivative is 4x³ - 8x
         
         // Calculate points for the tangent line
         // We'll extend the line a bit in both directions
@@ -203,20 +211,18 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.stroke();
         ctx.setLineDash([]); // Reset to solid line
         
-        // Calculate the gradient direction (perpendicular to tangent)
-        // For gradient descent, we move in the negative gradient direction
-        // The gradient points in the direction of steepest ascent
-        const gradientAngle = angle + Math.PI/2; // Perpendicular to tangent
+        // For negative tangent direction, we want to go in the opposite direction of the tangent
+        // if the slope is positive (going uphill), or in the same direction if the slope is negative (going downhill)
         
         // Determine the direction (we want to go downhill)
-        // If x > 0, gradient points up and right, so negative gradient points down and left
-        // If x < 0, gradient points up and left, so negative gradient points down and right
+        // If derivative > 0, tangent points uphill, so negative tangent points downhill
+        // If derivative < 0, tangent points downhill, so we follow that direction
         const directionMultiplier = (derivative > 0) ? -1 : 1;
         
-        // Draw the gradient direction arrow (perpendicular to tangent)
-        const gradX = x + directionMultiplier * 20 * Math.cos(gradientAngle);
-        const gradY = y + directionMultiplier * 20 * Math.sin(gradientAngle);
-        drawArrow(x, y, gradX, gradY, 'red');
+        // Draw the negative tangent direction arrow
+        const tangentX = x + directionMultiplier * 20 * Math.cos(angle);
+        const tangentY = y + directionMultiplier * 20 * Math.sin(angle);
+        drawArrow(x, y, tangentX, tangentY, 'red');
     }
 
     // Draw the cost function and the current position
@@ -367,7 +373,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.fillText('Tangent Line at Each Point', 20, 60);
         
         ctx.fillStyle = 'red';
-        ctx.fillText('Gradient Descent Direction (Perpendicular to Tangent)', 20, 90);
+        ctx.fillText('Negative Tangent Direction (Downhill Direction)', 20, 90);
     }
 
     // Initialize the visualization
