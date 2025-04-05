@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentX = document.getElementById('current-x');
     const currentY = document.getElementById('current-y');
     const currentCost = document.getElementById('current-cost');
+    const currentDerivative = document.getElementById('current-derivative');
 
     // Set up variables for our visualization
     let isRunning = false;        // Tracks if the algorithm is currently running
@@ -148,10 +149,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Update the information panel with current values
     function updateInfoPanel() {
+        // Display the current iteration number
         currentIteration.textContent = iteration;
+        
+        // Display the current x position (rounded to 4 decimal places)
         currentX.textContent = currentPosition.x.toFixed(4);
+        
         // We don't need to update currentY as we're only showing x in the 1D visualization
+        
+        // Display the current cost function value f(x) = x⁴ - 4x² + 5
         currentCost.textContent = costFunction(currentPosition.x).toFixed(4);
+        
+        // Calculate and display the derivative value f'(x) = 4x³ - 8x
+        // This is the slope of the tangent line at the current position
+        const derivativeValue = 4 * Math.pow(currentPosition.x, 3) - 8 * currentPosition.x;
+        currentDerivative.textContent = derivativeValue.toFixed(4);
     }
 
     // Draw an arrow to show direction
