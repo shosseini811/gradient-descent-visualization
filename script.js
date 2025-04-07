@@ -183,7 +183,16 @@ document.addEventListener('DOMContentLoaded', function() {
         let grad = gradient(currentXValue);
         
         // Calculate the gradient angle from the derivative
-        const gradientAngle = (Math.atan(grad) * 180 / Math.PI).toFixed(2);
+        let angleInRadians = Math.atan(grad);
+        let angleInDegrees = angleInRadians * 180 / Math.PI;
+        
+        // If the angle is negative, add 180 degrees to get the correct orientation
+        if (angleInDegrees < 0) {
+            angleInDegrees = 180 + angleInDegrees;
+        }
+        
+        // Format to 2 decimal places
+        const gradientAngle = angleInDegrees.toFixed(2);
         
         // Verify using numerical approximation with adjacent points
         const deltaX = 0.0001; // Small step for numerical approximation
@@ -194,7 +203,16 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Calculate numerical slope and angle
         const numericalSlope = (y2 - y1) / (x2 - x1);
-        const numericalAngle = (Math.atan(numericalSlope) * 180 / Math.PI).toFixed(2);
+        let numericalRadians = Math.atan(numericalSlope);
+        let numericalDegrees = numericalRadians * 180 / Math.PI;
+        
+        // If the numerical angle is negative, add 180 degrees to get the correct orientation
+        if (numericalDegrees < 0) {
+            numericalDegrees = 180 + numericalDegrees;
+        }
+        
+        // Format to 2 decimal places
+        const numericalAngle = numericalDegrees.toFixed(2);
         
         // Log both angles for verification
         console.log(`Iteration ${iteration}: Position (${currentXValue.toFixed(4)}, ${costFunction(currentXValue).toFixed(4)})`);
@@ -416,13 +434,21 @@ document.addEventListener('DOMContentLoaded', function() {
             const endPointY = canvasY + arrowDirY;
             
             // Convert the angle from radians to degrees for display
-            const angleDegrees = (stepAngle * 180 / Math.PI).toFixed(1);
-            console.log(`Step Angle: ${angleDegrees}°`);
+            let angleDegrees = stepAngle * 180 / Math.PI;
+            
+            // If the angle is negative, add 180 degrees to get the correct orientation
+            if (angleDegrees < 0) {
+                angleDegrees = 180 + angleDegrees;
+            }
+            
+            // Format to 1 decimal place
+            const formattedAngleDegrees = angleDegrees.toFixed(1);
+            console.log(`Step Angle: ${formattedAngleDegrees}°`);
             
             // Add label showing just the path angle
             ctx.fillStyle = colorDirection;
             ctx.font = '10px Arial';
-            ctx.fillText(`Angle: ${angleDegrees}°`, canvasX + 25, canvasY - 5);
+            ctx.fillText(`Angle: ${formattedAngleDegrees}°`, canvasX + 25, canvasY - 5);
             
             // Draw an arc to visualize the angle on the plot
             const arcRadius = 20; // Radius of the arc in pixels
