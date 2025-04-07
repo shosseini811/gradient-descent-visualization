@@ -50,11 +50,15 @@ document.addEventListener('DOMContentLoaded', function() {
         isRunning = false;
         iteration = 0;
         
-        // Use the starting point from the slider
-        const startingX = parseFloat(startingPointInput.value);
+        // Generate a random starting point between -4 and 4
+        const randomStartingX = Math.random() * 8 - 4; // Random number between -4 and 4
+        
+        // Update the slider to match the random starting point
+        startingPointInput.value = randomStartingX.toFixed(1);
+        startingPointValue.textContent = randomStartingX.toFixed(1);
         
         currentPosition = {
-            x: startingX,
+            x: randomStartingX,
             y: 0 // y will be calculated based on x
         };
         currentPosition.y = costFunction(currentPosition.x);
@@ -290,7 +294,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (isRunning) {
                     animationId = requestAnimationFrame(animate);
                 }
-            }, 3000); // Reduced delay for slightly faster animation (adjust as needed)
+            }, 1000); // Reduced delay for slightly faster animation (adjust as needed)
         }
 
         // Start the animation loop
@@ -449,31 +453,6 @@ document.addEventListener('DOMContentLoaded', function() {
             ctx.fillStyle = colorDirection;
             ctx.font = '10px Arial';
             ctx.fillText(`Angle: ${formattedAngleDegrees}°`, canvasX + 25, canvasY - 5);
-            
-            // Draw an arc to visualize the angle on the plot
-            const arcRadius = 20; // Radius of the arc in pixels
-            
-            // Draw the angle arc
-            ctx.beginPath();
-            ctx.strokeStyle = 'rgba(255, 165, 0, 0.8)'; // Orange, semi-transparent
-            ctx.lineWidth = 2;
-            
-            // Start at 0 degrees (horizontal right)
-            ctx.moveTo(canvasX, canvasY);
-            ctx.lineTo(canvasX + arcRadius, canvasY);
-            
-            // Draw arc from 0 to the step angle
-            ctx.beginPath();
-            ctx.arc(canvasX, canvasY, arcRadius, 0, stepAngle, stepAngle < 0);
-            ctx.stroke();
-            
-            // Draw a small dot at the end of the arc
-            ctx.beginPath();
-            ctx.fillStyle = 'orange';
-            const arcEndX = canvasX + arcRadius * Math.cos(stepAngle);
-            const arcEndY = canvasY + arcRadius * Math.sin(stepAngle);
-            ctx.arc(arcEndX, arcEndY, 3, 0, Math.PI * 2);
-            ctx.fill();
             
             // No tangent line visualization
         }
